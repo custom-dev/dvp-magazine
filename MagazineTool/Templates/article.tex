@@ -1,0 +1,32 @@
+@using System
+@using System.Collections.Generic
+@using System.Linq
+@using Developpez.MagazineTool
+
+@{
+	List<AuteurType> auteurs = Model.Auteurs.Where(x => x.Role == AuteurRoleEnum.Auteur).ToList();
+	var traducteurs = Model.Auteurs.Where(x => x.Role == AuteurRoleEnum.Traducteur).ToList();
+	string type = "";
+
+	switch(Model.Source)
+	{
+		case SourceEnum.Article:
+			type = "Article";
+			break;
+		case SourceEnum.Actualite:
+			type = "Actualité";
+			break;
+	}
+}
+
+\titrearti{@EscapeChar(Model.Titre)}{@type}\label{article-@Model.ID}
+\presentation{@Model.Synopsis.ToLatex()}
+
+
+@Model.Contenu.ToLatex()
+\begin{center}
+\rule{\linewidth}{.5pt}
+
+\emph{@Model.DisplayFooter()}
+
+\end{center}

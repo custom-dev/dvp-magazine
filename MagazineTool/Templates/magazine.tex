@@ -1,0 +1,55 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage{times}
+\usepackage{calc}
+\usepackage{float}
+\input{input/preambule}
+\input{input/macros}
+\input{input/environnements}
+
+\begin{document}
+\input{mag@(Model.Numero)/couverture}
+\input{mag@(Model.Numero)/remerciements}
+
+@foreach(var categorie in Model.Categories)
+{
+	WriteLine(@"\begin{{{0}}}", categorie.Nom);
+	WriteLine(@"\titrerubrique{Les derniers tutoriels et articles}");
+
+	for(var i = 0; i < categorie.Articles.Count; ++i)
+	{
+		if (i > 0)
+		{
+			WriteLine();
+			WriteLine(@"\newpage");
+			WriteLine();
+
+			//WriteLine(@"\vspace{1cm}");
+			//WriteLine();
+		}
+		
+		WriteLine(@"\renewcommand\DVPGetImagePath{{mag{0}/articles/{1}/}}", Model.Numero, categorie.Articles[i].ID);
+		WriteLine(@"\input{{mag{0}/articles/{1}/article}}", Model.Numero, categorie.Articles[i].ID);
+	}
+
+	WriteLine(@"\end{{{0}}}", categorie.Nom);
+}
+
+
+%%%%\begin{Exemple space}
+%%%%
+%%%%
+%%%%\titrerubrique{Les dernières news Qt}
+%%%%\input{mag54/articles/sortie_qt_creator_3_2}
+%%%%
+%%%%\vspace{1cm}
+%%%%
+%%%%\input{mag54/articles/nouvelle_licence_qt_lgpl3}
+%%%%
+%%%%\vspace{1cm}
+%%%%
+%%%%\input{mag54/articles/sortie_qt_5_4_beta}
+%%%%\end{Exemple space}
+
+
+\UrlListe
+\end{document}

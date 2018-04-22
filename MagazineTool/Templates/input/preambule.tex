@@ -1,0 +1,240 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}% police helvetica
+\usepackage{graphicx}%pour inserer des graphiques
+	\graphicspath{{logo/}{input/}{mag62/articles/}} 
+\usepackage[left=2.4cm,right=2.4cm,top=2cm,bottom=3cm]{geometry}%marges
+\usepackage{lipsum}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{enumitem}
+\usepackage{media9}
+\usepackage{sistyle}
+\addmediapath{mag62/articles/images}
+\usepackage[switch, pagewise]{lineno}
+\usepackage{fixltx2e}
+\usepackage{nccrules}
+\usepackage[bottom]{footmisc}
+%\linenumbers
+
+
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{color}
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{hhline}
+\makeatletter
+\newcommand\arraybslash{\let\\\@arraycr}
+\makeatother
+\newcommand\liststyleLi{%
+\renewcommand\labelitemi{•}
+\renewcommand\labelitemii{◦}
+\renewcommand\labelitemiii{${\blacksquare}$}
+\renewcommand\labelitemiv{•}
+}
+
+
+%%%%%%%%entêtes et pieds de pages%%%%%%%%%%%%%%%%%%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{22.58pt}
+\renewcommand{\headrulewidth}{0pt}
+
+
+\makeatletter
+\renewcommand{\footrulewidth}{0pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%sections%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\renewcommand{\thesubsection}{\@arabic\c@subsection}
+%\renewcommand{\thesubsubsection}{\@arabic\c@subsection.\@arabic\c@subsubsection}
+\setcounter{secnumdepth}{5} %pour la numérotation dans le corps du document
+\setcounter{tocdepth}{1} %pour l'apparition dans la table des matières
+\titleformat{\section}
+{\color{bleudvp}\normalfont\sffamily\Huge\bfseries}
+{}{0em}{}
+\titlecontents{section}%
+  [0em]% <-- à modifier
+  {\vspace{0em}}
+  {}% <-- à modifier
+  {\hspace{-0em}}% <-- à modifier
+  {\hfill\color{bleudvp} Page \contentspage}
+\usepackage{zref-base,zref-lastpage}
+\usepackage{etexcmds}
+\usepackage{pdfescape}  
+\usepackage{multicol}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usepackage[francais]{babel}
+\usepackage[hyphens]{url} 
+\usepackage{hyperref}
+	\hypersetup{breaklinks=true,linkcolor=bleudvp, urlcolor=bleudvp, colorlinks=true}
+
+%%%%%%%%%%%%%%%%%%%%%couleurs%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{colortbl}
+\usepackage{xcolor}
+	\definecolor{orangeattention}{RGB}{255,193,71}
+	\definecolor{bleudvp}{RGB}{32,30,105} 
+	\definecolor{rougedvp}{RGB}{252,4,4} 
+	\definecolor{codegreen}{RGB}{91,255,151}
+	\definecolor{jauneidee}{RGB}{255,247,147}
+	\definecolor{vertperso}{RGB}{204,255,153}
+	%\definecolor{macouleurA}{rgb}{0,0.65,0}
+	%\definecolor{Numbers}{rgb}{255,128,0}
+	\definecolor{gris25}{gray}{0.75}
+	\definecolor{gris50}{gray}{0.5}
+	\definecolor{blue25}{rgb}{189,183,107}
+	%\definecolor{editorGray}{rgb}{0.95, 0.95, 0.95}
+	%\definecolor{editorOcher}{rgb}{1, 0.5, 0}
+	%\definecolor{editorGreen}{rgb}{0, 0.5, 0}
+%\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+%\definecolor{pblue}{rgb}{0.13,0.13,1}
+%\definecolor{pgreen}{rgb}{0,0.5,0}
+%\definecolor{pred}{rgb}{0.9,0,0}
+%\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\definecolor{darkgreen}{rgb}{0.05, 0.5, 0.06}
+\definecolor{DVPlightgray}{rgb}{.9,.9,.9}
+
+\usepackage{listings}
+\lstset{%
+                inputencoding=utf8,
+                    extendedchars=true,
+                    literate=%
+                    {é}{{\'e}}{1}%
+                    {è}{{\`e}}{1}%
+                    {à}{{\`a}}{1}%
+                    {ç}{{\c{c}}}{1}%
+                    {œ}{{\oe}}{1}%
+                    {ù}{{\`u}}{1}%
+                    {É}{{\'E}}{1}%
+                    {È}{{\`E}}{1}%
+                    {À}{{\`A}}{1}%
+                    {Ç}{{\c{C}}}{1}%
+                    {Œ}{{\OE}}{1}%
+                    {Ê}{{\^E}}{1}%
+                    {ê}{{\^e}}{1}%
+                    {î}{{\^i}}{1}%
+                    {ô}{{\^o}}{1}%
+                    {û}{{\^u}}{1}%
+                    {…}{{\ldots}}{1}%
+                    {«}{{\og}}{1}%
+                    {»}{{\fg}}{1}%
+                    {ë}{{\¨{e}}}1
+                    {û}{{\^{u}}}1
+                    {â}{{\^{a}}}1
+                    {Â}{{\^{A}}}1
+                    {Î}{{\^{I}}}1
+                    {→}{{$\rightarrow{}$}}1
+                    {`}{{$\backprime{}$}}1
+                    {Θ}{{$\Theta{}$}}1
+                    {Σ}{{$\Sigma{}$}}1
+                    {Ω}{{$\Omega{}$}}1
+                    {Ι}{{I}}1
+                    {Χ}{{X}}1
+                    {Υ}{{$\Upsilon{}$}}1
+                    {Α}{{A}}1
+                    {0}{{{\color{rougedvp}0}}}1
+                    {├}{{$\vdash$}}1
+                    {─}{{$-$}}1
+                    {└}{{$\lfloor$}}1
+                    {│}{{$|$}}1
+    {1}{{{\color{rougedvp}1}}}1
+    {2}{{{\color{rougedvp}2}}}1
+    {3}{{{\color{rougedvp}3}}}1
+    {4}{{{\color{rougedvp}4}}}1
+    {5}{{{\color{rougedvp}5}}}1
+    {6}{{{\color{rougedvp}6}}}1
+    {7}{{{\color{rougedvp}7}}}1
+    {8}{{{\color{rougedvp}8}}}1
+    {9}{{{\color{rougedvp}9}}}1
+            }
+    \lstdefinelanguage{dvp}{%
+keywords={typeof, new, true, false, catch, function, return, catch, switch, var, if, in, while, do, else, case, break, const},
+ndkeywords={glCreateShader, std, VertexShaderStream, getline, FragmentShaderStream, ios, printf,:, glShaderSource, glCompileShader, glGetShaderiv, VertexShaderErrorMessage, glCreateProgram, glAttachShader, glLinkProgram, glGetProgramiv, glGetProgramInfoLog, glGetShaderInfoLog,LoadShaders, fprintf, glDeleteShader, class, export, boolean, throw,  implements, import, this},
+%otherkeywords={ =, +, -, \}, \{, *, \&, >, <},
+          	keywordstyle=\color{purple}\bfseries,
+          	ndkeywordstyle=\color{bleudvp}\bfseries,
+         	 identifierstyle=\color{black},
+         	 sensitive=false,
+         	 comment=[l]{//},
+          	morecomment=[s]{/*}{*/},          
+          	commentstyle=\color{darkgreen}\ttfamily,
+          	stringstyle=\color{blue}\ttfamily,
+          	xleftmargin={0.75cm},
+    		%alsodigit={:},
+         	morestring=[b]',
+          	%morestring=[b]>,
+          	%morestring=[b]<,
+          	morestring=[b]"
+        }
+
+        \lstset{%
+           language=dvp,
+           emph={char, int},
+           emphstyle=\color{blue!50}\bfseries,
+           emph={[2]Null},
+           emphstyle=[2]\color{codegreen},
+           backgroundcolor=\color{DVPlightgray},
+           extendedchars=true,
+           basicstyle=\footnotesize\ttfamily,
+           showstringspaces=false,
+           showspaces=false,
+           numbers=left,
+           numberstyle=\footnotesize,
+           numbersep=9pt,
+           firstnumber=1,
+           numberfirstline=true,
+           stepnumber=1,
+           tabsize=2,
+           breaklines=true,
+           showtabs=false,
+           captionpos=b             
+        }
+
+\makeatother
+
+
+\renewcommand{\thesubsection}{\arabic{subsection}}
+\makeatletter
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+\makeatletter
+\newcounter{subsubsubsubsection}[subsubsubsection]
+\renewcommand\thesubsubsubsubsection{\thesubsubsubsection .\@alph\c@subsubsubsubsection}
+\def\toclevel@subsubsubsection{4}
+\newcommand\subsubsubsubsection{\@startsection{subsubsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsubsectionmark}[1]{}
+\makeatother
+
+
+\makeatletter
+\newcounter{subsubsubsubsubsection}[subsubsubsubsection]
+\renewcommand\thesubsubsubsubsubsection{\thesubsubsubsubsection .\@alph\c@subsubsubsubsubsection}
+\def\toclevel@subsubsubsubsection{4}
+\newcommand\subsubsubsubsubsection{\@startsection{subsubsubsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsubsubsectionmark}[1]{}
+\makeatother
+
+% Gestion des notes de bas de pages au sein de l'environnement minipage
+%\usepackage{footnote}
+%\makesavenoteenv{minipage}

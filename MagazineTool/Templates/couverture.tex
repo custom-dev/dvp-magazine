@@ -1,0 +1,36 @@
+﻿%%% Entête et pied de page %%%
+\fancyhead[C]{} 
+\fancyhead[R]{\includegraphics[scale=0.4]{logos_images/clubdesdevp.png}}
+\fancyhead[L]{}
+
+%\fancyfoot[R]{page \thepage\\\textcolor{gris50}{\textbf{Numéro @Model.Numero @Model.Date}}} 
+%\fancyfoot[C]{ }
+%\fancyfoot[L]{\textcolor{bleudvp}{Developpez} \textcolor{rougedvp}{\emph{Magazine}} est une publication de Developpez.com}
+
+\fancyfoot[R]{ } 
+\fancyfoot[C]{\thepage\footnotesize{\\\textcolor{gris50}{\textbf{Numéro @Model.Numero @Model.Date}}\\\textcolor{bleudvp}{Developpez} \textcolor{rougedvp}{\emph{Magazine}} est une publication de Developpez.com}}
+\fancyfoot[L]{ }
+
+%%% CORPS %%%
+\numero{@Model.Numero}
+\date{@Model.Date}%
+\edito{@Model.Edito}
+\realisateur{@Model.Realisateur}
+
+\themeun{@Model.Couverture.Articles[0].Categorie.Nom}
+\titreun{@Model.Couverture.Articles[0].Titre}
+\logoun{@Model.Couverture.Articles[0].Categorie.Icone}
+\resumeun{@Model.Couverture.Articles[0].Resume}
+\auteurun{@Model.Couverture.Articles[0].DisplayAuteurs()}
+\pageun{\pageref{article-@Model.Couverture.Articles[0].ID}}
+
+
+\themedeux{@Model.Couverture.Articles[1].Categorie.Nom}
+\titredeux{@Model.Couverture.Articles[1].Titre}
+\logodeux{@Model.Couverture.Articles[1].Categorie.Icone}
+\resumedeux{@Model.Couverture.Articles[1].Resume}
+\auteurdeux{@Model.Couverture.Articles[1].DisplayAuteurs()}
+\pagedeux{\pageref{article-@Model.Couverture.Articles[1].ID}}
+
+
+\couverture

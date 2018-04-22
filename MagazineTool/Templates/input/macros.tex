@@ -1,0 +1,204 @@
+\makeatletter
+\def\numero#1{\def\numer@{#1}}
+\def\date#1{\def\d@te{#1}}
+\def\realisateur#1{\def\magazinerealisateur{#1}}
+\def\edito#1{\def\edit@{#1}}
+\def\themeun#1{\def\them@{#1}}
+\def\titreun#1{\def\title@ne{#1}}
+\def\logoun#1{\def\l@g@ne{#1}}
+\def\resumeun#1{\def\resu{#1}}
+\def\auteurun#1{\def\auth@r{#1}}
+\def\pageun#1{\def\p@ge{#1}}
+\def\themedeux#1{\def\themtw@{#1}}
+\def\titredeux#1{\def\titletw@{#1}}
+\def\logodeux#1{\def\l@gtw@{#1}}
+\def\resumedeux#1{\def\resutw@{#1}}
+\def\auteurdeux#1{\def\auth@rtw@{#1}}
+\def\pagedeux#1{\def\p@getw@{#1}}
+%%%%%%%%%%%%%%%%%Articles de la page de couverture%%%%%%%%%%%%%%%%
+\def\articleun{%
+\vspace{\dimexpr\baselineskip-2\fboxsep-2\fboxrule}
+\textcolor{bleudvp}{{\LARGE\sffamily\textbf{\them@}}}
+
+\vspace{-2\baselineskip}
+\hfill\includegraphics[width=2cm]{logos_images/\l@g@ne} \kern0pt
+
+\vspace{\baselineskip}
+{\Large\sffamily\textbf{\title@ne}}
+\vspace{\baselineskip}
+
+\resu\par
+par \textcolor{rougedvp}{\auth@r}\par
+Page \p@ge\par}
+
+\def\articledeux{%
+\kern0pt\hfill\textcolor{bleudvp}{{\LARGE\sffamily\textbf{\themtw@}}}
+
+\vspace{-2\baselineskip}
+\includegraphics[width=2cm]{logos_images/\l@gtw@} 
+
+\begin{flushright}
+{\Large\textbf{\sffamily\titletw@}}
+
+\vspace{\baselineskip}
+\resutw@\par
+par \textcolor{rougedvp}{\auth@rtw@}\par
+Page \p@getw@\par
+\end{flushright}}
+%%%%%%%%%%%%%%%%%%%%%couverture%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\couverture{%
+\thispagestyle{empty}
+%%%%%%%%%% table des matières et sections
+\renewcommand{\contentsname}{\textcolor{bleudvp}{\kern0pt\hfill {\LARGE\sffamily\bfseries Sommaire}\hfill\kern0pt}}
+\noindent
+\setlength\unitlength{1cm}
+\begin{picture}(16,8)(0,-1)
+\put(0,0){\includegraphics[width=\linewidth]{logos_images/logomag.png}}%
+%\put(1,-1){\rotatebox{25}{\sffamily\textcolor{rougedvp}{\fontsize{50}{50}\selectfont Hors série}}}
+\noindent
+\put(8,1){%
+\parbox{0.5\linewidth}{%
+\begin{flushright}
+\textcolor{gris50}{\d@te\\
+Numéro \numer@\\
+Magazine en ligne gratuit\\
+Diffusion de copies conformes à l'original autorisée\\
+Réalisation : \magazinerealisateur\\
+Rédaction : la rédaction de Developpez\\
+Contact : magazine@redaction-developpez.com\\}
+\end{flushright}
+}}
+\end{picture}
+
+\noindent\colorbox{gris25}{\makebox[\dimexpr\linewidth-2\fboxsep-2\fboxrule][l]{%%
+\colorbox{white}{\parbox{0.36\linewidth}{
+\begin{tabular}{m{\dimexpr\linewidth-4\fboxsep-2\fboxrule}}
+\vspace{0\baselineskip}\vbox to 6cm{\tableofcontents}\\\end{tabular}
+
+\noindent
+\begin{tabular}{m{\dimexpr\linewidth-4\fboxsep-2\fboxrule}}
+
+\cellcolor{gris25}\textcolor{bleudvp}{\kern0pt\vfill\begin{center}
+{\LARGE \sffamily\textbf{\'Editorial}}
+\end{center}}
+\vbox to 6cm{\edit@
+
+\vfill
+\begin{flushright}
+La rédaction
+\end{flushright}}
+\end{tabular}
+}}\hfill
+\parbox{0.59\linewidth}{%
+\vspace{1\baselineskip}
+\articleun
+\vspace{1\baselineskip}
+\articledeux
+}
+}}%boite grise
+\clearpage}
+\makeatother
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%liste des liens%%%%%%%%%%%
+\makeatletter
+\newcounter{UrlListe}
+\newcounter{UrlListeAux}
+\renewcommand*{\theUrlListe}{UrlListe\the\value{UrlListe}}
+\renewcommand*{\theUrlListeAux}{UrlListe\the\value{UrlListeAux}}
+\newcommand\lien{Lien~\the\value{UrlListe}}
+
+\zref@newprop{UrlListe@Text}{\UrlListe@Text}
+\zref@newprop{UrlListe@HexLink}[3F3F]{\UrlListe@HexLink}
+\zref@newlist{UrlListe}
+\zref@addprops{UrlListe}{UrlListe@Text, UrlListe@HexLink, page}
+\zref@newprop{UrlListe@Max}{\the\value{UrlListe}}
+\zref@addprops{LastPage}{UrlListe@Max}
+
+\newif\ifUrlListe@
+
+\newcommand\saved@hyper@linkurl{}
+\let\saved@hyper@linkurl\hyper@linkurl
+\renewcommand{\hyper@linkurl}[2]{%
+  \ifUrlListe@
+  \else
+    \begingroup
+      \refstepcounter{UrlListe}%
+      \protected@edef\UrlListe@Text{#1}%
+      \@onelevel@sanitize\UrlListe@Text
+      \EdefEscapeHex\UrlListe@HexLink{#2}%
+      \zref@labelbylist{\theUrlListe}{UrlListe}%
+    \endgroup
+  \fi
+  \saved@hyper@linkurl{#1}{#2}%
+}
+
+\newcommand*{\UrlListe}{%
+\clearpage
+\newgeometry{left=2cm,right=2cm,top=2cm,bottom=3cm}
+\fancyput(-2.54cm,-25.96cm){\includegraphics[width=21cm,height=28.5cm]{logos_images/imagedefondrose.jpg}}%
+  \zref@refused{LastPage}%
+  \edef\UrlListe@Max{%
+    \zref@extractdefault{LastPage}{UrlListe@Max}{-1}%
+  }%
+  \ifnum\UrlListe@Max<0 %
+    \@latex@warning@no@line{Il faut compiler deux fois pour avoir la liste des liens ;)}%
+  \else
+    \UrlListe@true
+    \begin{UrlListeEnv}%
+      \let\UrlListe@LastPage\@empty
+      \setcounter{UrlListeAux}{0}%
+      \@whilenum\value{UrlListeAux}<\UrlListe@Max\do{%
+        \stepcounter{UrlListeAux}%
+        \zref@refused{\theUrlListeAux}%
+        \zref@ifrefundefined{\theUrlListeAux}{%
+        }{%
+          \EdefUnescapeHex\UrlListe@Link{%
+            \zref@extract{\theUrlListeAux}{UrlListe@HexLink}%
+          }%
+          \zref@def@extract\UrlListe@Text{\theUrlListeAux}{UrlListe@Text}%
+          \zref@def@extract\UrlListe@Page{\theUrlListeAux}{page}%
+          \edef\UrlListe@Next{%
+            \noexpand\UrlListeItem{%
+              \etex@unexpanded\expandafter{\UrlListe@Page}%
+            }{%
+              \etex@unexpanded\expandafter{\UrlListe@Link}%
+            }{%
+              \etex@unexpanded\expandafter{\UrlListe@Text}%
+            }%
+          }%
+          \ifx\UrlListe@Page\UrlListe@LastPage
+          \else
+            \expandafter\UrlListePage\expandafter{\UrlListe@Page}%
+            \let\UrlListe@LastPage\UrlListe@Page
+          \fi
+          \UrlListe@Next
+        }%
+      }%
+    \end{UrlListeEnv}%
+  \fi
+}
+\makeatletter
+
+\newenvironment{UrlListeEnv}{%
+\clearpage
+\section*{Liste des liens}
+%
+}{
+}
+
+\newcommand*{\UrlListePage}[1]{%
+\par\noindent\hyperlink{page.#1}{\textcolor{rougedvp}{Page #1}}\medskip%\mbox{}%
+}
+
+\newcommand*{\UrlListeItem}[3]{%
+  \vspace{-0.3cm}\begin{description}[labelsep=3mm]
+  \item\textbf{\vphantom{yA}Lien \the\value{UrlListeAux}} : \href{#2}{\nolinkurl{#2}}
+  \end{description}%
+}  
+
+%%%% Gestion des chemins pour les images
+\newcommand{\DVPGetImagePath}{}
+\makeatother

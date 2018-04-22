@@ -1,0 +1,77 @@
+﻿@using System
+@using System.Collections.Generic
+@using System.Linq
+@using Developpez.MagazineTool
+
+@{
+	HashSet<string> participants = new HashSet<string>();
+	foreach(var categorie in Model.Categories)
+	{
+		foreach(var article in categorie.Articles)
+		{
+			foreach(var auteur in article.Auteurs)
+			{
+				if (auteur.Role == AuteurRoleEnum.Auteur ||
+					auteur.Role == AuteurRoleEnum.Traducteur ||
+					auteur.Role == AuteurRoleEnum.Correcteur)
+				{
+					participants.Add(auteur.NomComplet);
+				}
+			}
+		}
+	}
+}
+\fancyput(-2.54cm,-25.96cm){\includegraphics[width=21cm,height=28.5cm]{logos_images/imagedefondclub.jpg}}%
+{\Huge\sffamily\textbf{\textcolor{bleudvp}{Edito}}}\par\vspace{\baselineskip}
+Chers membres du Club Developpez,
+
+\paragraph*{}
+
+Après une absence qui n'a que trop duré, nous sommes fiers de vous annoncer le retour du Magazine de Developpez.com avec un nouveau format trimestriel.
+
+\paragraph*{}
+
+Durant plusieurs années, vous avez été nombreux à attendre impatient, tous les deux mois, la sortie du nouveau numéro du magazine. Numéro après numéro, l’ancien rédacteur de publication a
+réalisé un travail de qualité. Toute l’équipe de Développez.com le remercie pour son dévouement sans faille durant cette période. Mais toutes les bonnes choses ont une fin, et notre ancien 
+rédacteur de publication à souhaiter se retirer. 
+
+\paragraph*{}
+
+Malheureusement, faute de remplaçant, ce retrait a également signifié une mise à l’arrêt du magazine… Jusqu’à aujourd’hui ! Le magazine a retrouvé un Directeur de Publication après 2 ans d'inactivié. 
+
+\paragraph*{}
+
+Comme ses prédécesseurs ce n°63 vous offre un condensé des actualités IT, articles et tutoriels publiés au cours des derniers mois, le tout gratuitement et dans un format universel PDF librement diffusable. 
+Retrouvez ainsi une sélection d'articles de qualité, ainsi que l'actualité marquante de ces derniers mois, notamment avec une rétrospective de l'affaire des failles Spectre et Meltdown.
+
+\paragraph*{}
+
+Ces actualités, articles et tutoriels sont l’œuvre des chroniqueurs, membres de la rédaction de Developpez ou auteurs occasionnels qui prennent de leurs temps pour partager leurs connaissances.
+\hyperref[article-mag63-club-enquete-communautaire]{L'enquête communautaire} présentée dans ce numéro montre que vous êtes très attachés à ces contenus. Ne manquez pas d'encourager et de remercier 
+tous ces auteurs à l'occasion, et vous aussi lecteur de passage, vous avez forcément des connaissances à partager, alors n'hésitez pas à contribuer.
+
+\paragraph*{}
+
+Nous espérons que le magazine dans sa version 2018 vous plaira et qu'il marquera un nouveau départ, mais sa diffusion et son succès ne sauraient perdurer sans le concours des membres bénévoles du Club qui ont participé à l'élaboration de ce numéro, de la préparation, la mise au format jusqu'aux relectures et corrections diverses. Ils ont travaillé d'arrache-pied, qu'ils en soient tous remerciés à commencer par le vaillant François DORIN à l'initiative de la manœuvre pour ressusciter le mag', mais aussi à tous les rédacteurs, relecteurs, chroniqueurs ou traducteurs sans lesquels il n'y aurait pas de contenu : 
+
+%La rédaction de Développez.com remercie tout particulièrement les personnes suivantes pour leurs contributions, sans lesquels ce magazine ne pourrait exister (par ordre alphabétique)~:
+\begin{itemize}
+@foreach(var auteur in participants.OrderBy(x => x))
+{
+	Write(@"\item ");
+	Write(auteur);
+	WriteLine();
+}
+\end{itemize}
+
+L'équipe du mag' n'est pas figée et cherche toujours des volontaires, si vous souhaitez contribuer, contactez-nous.
+
+\paragraph*{}
+
+Bonne lecture à tous, et longue vie au mag' !
+\paragraph*{}
+
+\begin{flushright}
+f-leb
+\end{flushright}
+\clearpage

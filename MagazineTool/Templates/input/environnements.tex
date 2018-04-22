@@ -1,0 +1,121 @@
+\def\titrerubrique#1{%
+\setcounter{subsection}{0}%
+\noindent%
+{\LARGE\sffamily\textbf{\textcolor{rougedvp}{#1}}}\par\vspace{2\baselineskip}}
+
+
+\def\titrearti#1#2{%
+\setcounter{subsection}{0}%
+\noindent%
+%{\Huge\sffamily{\small\textcolor{bleudvp}{#2\\}}\textbf{\textcolor{bleudvp}{#1}}}\par\vspace{\baselineskip}}
+{\Huge\sffamily\textbf{\textcolor{bleudvp}{#1}}}\par\vspace{\baselineskip}}
+
+
+\def\subtitrearti#1{%
+\setcounter{subsection}{0}%
+\noindent%
+{\huge\sffamily\textbf{\textcolor{bleudvp}{#1}}}\par\vspace{\baselineskip}}
+
+
+\newcommand\presentation[1]{\medskip
+\noindent\colorbox{blue!15}{\makebox[\dimexpr\linewidth-2\fboxsep-2\fboxrule][l]{%
+\begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule}
+#1\end{minipage}}}\vspace{0.8cm}}
+
+
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%% Cadre %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\cadre}[4]{%
+\expandafter\newenvironment{#1}[1]{%
+	\medbreak
+	\parindent=0pt%
+	\setbox0\vbox\bgroup\advance\linewidth-\dimexpr4mm+12pt\relax
+	\hsize\linewidth
+	\ifx\@empty#1\@empty\relax%
+	\else\smallbreak\textbf{##1}\smallbreak\fi
+	\begin{minipage}{1.2cm}
+	\noindent\includegraphics[width=1cm]{#2} 
+	\end{minipage}%
+	\begin{minipage}{\linewidth-1.2cm}
+	\color{black}
+	
+	}{\end{minipage}\egroup
+	\begin{tikzpicture}
+	\node[draw,#4,fill=#3,rectangle,rounded corners=6pt,line width=1.2pt, text centered,text=black, minimum width=\linewidth-4pt] (A)at(0,0){{\box0}};%
+	\medbreak\ignorespaces
+	\end{tikzpicture}
+	\medbreak}
+}
+
+\cadre{attention}{logos_images/attention.jpg}{orangeattention}{orangeattention}
+\cadre{danger}{logos_images/danger.png}{red!40}{red!60}
+\cadre{idee}{logos_images/idee2}{jauneidee}{jauneidee}
+\cadre{info}{logos_images/information3}{blue!40}{blue!60}
+
+%%%%%%%%%%%%%%%%%%%% Categorie %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Usage :
+% 1 : nom de l'environnement
+% 2 : nom affiché
+% 3 : fond
+% 4 : logo
+\newcommand{\categorie}[4]{%
+\expandafter\newenvironment{#1}[2]{%
+\fancyput(-2.54cm,-25.96cm){\includegraphics[width=21cm,height=28.5cm]{#3}}%
+
+\noindent%
+\begin{minipage}{0.8\linewidth}%
+\section{#2}% 
+\end{minipage}%
+\begin{minipage}{0.2\linewidth}%
+\hfill\includegraphics[height=2cm]{#4}\par%
+\end{minipage}\par%
+\noindent
+}{\clearpage}%
+}
+
+\categorie{2D/3D/Jeux}{2D/3D/Jeux}{logos_images/imagedefondjeux.jpg}{logos_images/dev2D3Djeux.png}
+\categorie{Access}{Access}{logos_images/imagedefondoffice.jpg}{logos_images/access.png}
+\categorie{AJAX}{AJAX}{logos_images/imagedefonddevweb.jpg}{logos_images/ajax.png}
+\categorie{Algorithmique}{Algorithmique}{logos_images/imagedefondconception.png}{logos_images/Algorithmique.png}
+\categorie{ALM}{ALM}{logos_images/imagedefondconception.png}{logos_images/alm.png}
+\categorie{Android}{Android}{logos_images/imagedefondjava.jpg}{logos_images/Android.png}
+\categorie{Assembleur}{Assembleur}{logos_images/imagedefondassembleur.jpg}{logos_images/assembleur.png}
+\categorie{C++}{C++}{logos_images/imagedefondcpp.jpg}{logos_images/c++.png}
+\categorie{Cloud}{Cloud Computing}{logos_images/imagedefondhardware.png}{logos_images/cloud-computing.png}
+\categorie{Club}{Club}{logos_images/imagedefondclub.jpg}{logos_images/leclub.png}
+\categorie{Conception}{Conception}{logos_images/imagedefondconception.png}{logos_images/conception.png}
+\categorie{CRM}{CRM}{/imagedefondsolutionentreprise.jpg}{logos_images/CRM.png}
+\categorie{CSS}{CSS}{logos_images/imagedefonddevweb.jpg}{logos_images/css.png}
+\categorie{Delphi}{Delphi}{logos_images/imagedefondpascal.jpg}{logos_images/delphi.png}
+\categorie{DevWeb}{Développement Web}{logos_images/imagedefonddevweb.jpg}{logos_images/DevWeb.png}
+\categorie{Dotnet}{Dotnet}{logos_images/imagedefondos.jpg}{logos_images/dotnet.png}
+\categorie{Eclipse}{Eclipse}{logos_images/imagedefondjava.jpg}{logos_images/eclipse.png}
+\categorie{Embarque}{Systèmes embarqués}{logos_images/imagedefondassembleur.jpg}{logos_images/systemes-embarques.png}
+\categorie{Excel}{Excel}{logos_images/imagedefondoffice.jpg}{logos_images/excel.png}
+\categorie{Hardware}{Hardware}{logos_images/imagedefondassembleur.jpg}{logos_images/assembleur.png}
+\categorie{IntelligenceArtificielle}{Intelligence artificielle}{logos_images/imagedefondconception.png}{logos_images/IntelligenceArtificielle.png}
+\categorie{Java}{Java}{logos_images/imagedefondjava.jpg}{logos_images/java.png}
+\categorie{JavaScript}{JavaScript}{logos_images/imagedefonddevweb.jpg}{logos_images/javascript.png}
+\categorie{JavaWeb}{JavaWeb}{logos_images/imagedefondjava.jpg}{logos_images/javaweb.png}
+\categorie{LabView}{LabVIEW}{logos_images/imagedefondedi.jpg}{logos_images/labview.png}
+\categorie{Latex}{LaTeX}{logos_images/imagedefondlatex.jpg}{logos_images/latex.png}
+\categorie{Netbeans}{NetBeans}{logos_images/imagedefondjava.jpg}{logos_images/NetBeans.png}
+\categorie{NoSQL}{NoSQL}{logos_images/imagedefondsgbd.jpg}{logos_images/NoSQL.png}
+\categorie{OOo}{OpenOffice-LibreOffice}{logos_images/imagedefondlogiciel.jpg}{logos_images/openoffice-libreoffice.png}
+\categorie{OpenSource}{Libre \& Open Source}{logos_images/imagedefondlogiciel.jpg}{logos_images/openoffice-libreoffice.png}
+\categorie{Oracle}{Oracle}{logos_images/imagedefondsgbd.jpg}{logos_images/oracle.png}
+\categorie{Pascal}{Pascal}{logos_images/imagedefondpascal.jpg}{logos_images/pascal.png}
+\categorie{Perl}{Perl}{logos_images/imagedefondperl.jpg}{logos_images/Perl.png}
+\categorie{PHP}{PHP}{logos_images/imagedefonddevweb.jpg}{logos_images/php.png}
+\categorie{Programmation}{Programmation}{logos_images/imagedefondprogrammation.jpg}{logos_images/programmation.png}
+\categorie{PtQt}{PyQt}{logos_images/imagedefondqt.png}{logos_images/PyQt.png}
+\categorie{Python}{Python}{logos_images/imagedefondpython.png}{logos_images/Python.png}
+\categorie{Qt}{Qt}{logos_images/imagedefondqt.png}{logos_images/qt.png}
+\categorie{Reseau}{Réseau}{logos_images/imagedefondhardware.png}{logos_images/Reseau.png}
+\categorie{SolutionEntreprise}{Solutions d'Entreprise}{logos_images/imagedefondsolutionentreprise.jpg}{logos_images/solution-entreprises.png}
+\categorie{TypeScript}{TypeScript}{logos_images/imagedefonddevweb.jpg}{logos_images/TypeScript.png}
+\categorie{Virtualisation}{Virtualisation}{logos_images/imagedefondhardware.png}{logos_images/Virtualisation.png}
+\categorie{Windows}{Windows}{logos_images/imagedefondos.jpg}{logos_images/windows.png}
+

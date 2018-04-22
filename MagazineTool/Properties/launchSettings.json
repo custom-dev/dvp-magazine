@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MagazineTool": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\fdori\\Documents\\dvp\\mag63.xml"
+    }
+  }
+}
