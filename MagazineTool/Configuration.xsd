@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Configuration"
+    targetNamespace="http://tempuri.org/Configuration.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/Configuration.xsd"
+    xmlns:mstns="http://tempuri.org/Configuration.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:complexType name="LicenceType">
+    <xs:sequence>
+      <xs:element name="Logo" type="xs:string" minOccurs="0"/>
+      <xs:element name="Description" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="ID" type="xs:int" />
+  </xs:complexType>
+
+  <xs:complexType name="ConfigurationType">
+    <xs:sequence>
+      <xs:element name="Licences">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Licence" type="LicenceType" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Configuration" type="ConfigurationType" />
+    
+</xs:schema>

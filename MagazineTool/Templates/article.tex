@@ -18,15 +18,20 @@
 			break;
 	}
 }
-
+\begin{sloppypar}
 \titrearti{@EscapeChar(Model.Titre)}{@type}\label{article-@Model.ID}
-\presentation{@Model.Synopsis.ToLatex()}
+\end{sloppypar}
+
+@if(!String.IsNullOrEmpty(Model.Synopsis.ToLatex()))
+{
+	WriteLine(String.Format(@"\presentation{{{0}}}", Model.Synopsis.ToLatex()));
+}
 
 
 @Model.Contenu.ToLatex()
+
 \begin{center}
 \rule{\linewidth}{.5pt}
-
-\emph{@Model.DisplayFooter()}
-
 \end{center}
+
+@Model.DisplayFooter()

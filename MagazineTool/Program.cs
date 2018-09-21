@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace Developpez.MagazineTool
 {
@@ -7,6 +8,8 @@ namespace Developpez.MagazineTool
     {
         static void Main(string[] args)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             if (args.Length == 1)
             {
                 string inputFile = args[0];
@@ -14,7 +17,16 @@ namespace Developpez.MagazineTool
 
                 Generator generator = Generator.Create(inputFile, outputDirectory);
 
-                if (generator.Generate())
+                //if (generator.GenerateEPub())
+                //{
+                //    Console.Write("Génération EPUB réussie");
+                //}
+                //else
+                //{
+                //    Console.Write("Echec de la génération EPUB");
+                //}
+
+                if (generator.GenerateLatex())
                 {
                     Console.WriteLine("Génération réussie");
                 }

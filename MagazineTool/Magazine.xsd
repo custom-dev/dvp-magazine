@@ -20,6 +20,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="Article" />
       <xs:enumeration value="Actualite" />
+      <xs:enumeration value="BilletBlog" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -272,7 +273,7 @@
       <xs:element name="Date" type="xs:string" />
       <xs:element name="Realisateur" type="xs:string" />
       <xs:element name="Couverture" type="CouvertureType" />
-      <xs:element name="Edito" type="xs:string" />
+      <xs:element name="Editorial" type="EditorialType" />
       <xs:element name="Categories">
         <xs:complexType>
           <xs:sequence>
@@ -358,6 +359,7 @@
 
   <xs:complexType name="CouvertureType">
     <xs:sequence>
+      <xs:element name="Edito" type="xs:string" />
       <xs:element name="Articles">
         <xs:complexType>
           <xs:sequence>
@@ -365,6 +367,13 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EditorialType">
+    <xs:sequence>
+      <xs:element name="Auteur" type="xs:string" />
+      <xs:element name="Edito" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Magazine" type="MagazineType" />

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="http://tempuri.org/Configuration.xsd">
+  <Licences>
+    <Licence ID="1">
+      <Description>Copyright © [LICENCE_ANNEE] - [LICENCE_AUTEUR]. Aucune reproduction, même partielle, ne peut être faite de ce site et de l'ensemble de son contenu : textes, documents, images, etc. sans l'autorisation expresse de l'auteur. Sinon vous encourez selon la loi jusqu'à trois ans de prison et jusqu'à 300 000 € de dommages et intérêts</Description>
+    </Licence>
+    <Licence ID="2">
+      <Description>Les sources présentées sur cette page sont libres de droits et vous pouvez les utiliser à votre convenance. Par contre, la page de présentation de ces sources constitue une œuvre intellectuelle protégée par les droits d'auteur. Copyright ©[LICENCE_ANNEE] - [LICENCE_AUTEUR]. Aucune reproduction, même partielle, ne peut être faite de ce site et de l'ensemble de son contenu : textes, documents, images, etc. sans l'autorisation expresse de l'auteur. Sinon, vous encourez selon la loi jusqu'à trois ans de prison et jusqu'à 300 000 € de dommages et intérêts.</Description>
+    </Licence>
+    <Licence ID="3">
+      <Description>Copyright © [LICENCE_ANNEE] Developpez LLC. Tous droits réservés Developpez LLC. Aucune reproduction, même partielle, ne peut être faite de ce site et de l'ensemble de son contenu : textes, documents et images sans l'autorisation expresse de Developpez LLC. Sinon, vous encourez selon la loi jusqu'à trois ans de prison et jusqu'à 300 000 € de dommages et intérêts.</Description>
+    </Licence>
+    <Licence ID="11">
+      <Logo>CC_by-nc-sa</Logo>
+      <Description>Le contenu de cet article est rédigé par [LICENCE_AUTEUR] et est mis à disposition selon les termes de la Licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 3.0 non transposé. Les logos Developpez.com, en-tête, pied de page, css, et look &amp; feel de l'article sont Copyright © [LICENCE_ANNEE] Developpez.com.</Description>
+    </Licence>
+  </Licences>
+</Configuration>

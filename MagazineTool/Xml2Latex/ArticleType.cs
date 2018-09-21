@@ -9,7 +9,7 @@ using System.Xml.XPath;
 namespace Developpez.MagazineTool
 {
     partial class ArticleType
-    {
+    {       
         [XmlIgnore]
         public XDocument XDocument { get; private set; }
 
@@ -107,6 +107,12 @@ namespace Developpez.MagazineTool
             string auteurs = DisplayAuteurs(this.Auteurs.Where(x => x.Role == AuteurRoleEnum.Auteur).ToList());
             string traducteurs = DisplayAuteurs(this.Auteurs.Where(x => x.Role == AuteurRoleEnum.Traducteur).ToList());
             string nomAuteursEtTraducteurs;
+            XElement xLicAuteur = this.XDocument.XPathSelectElement("/document/entete/licauteur");
+            XElement xLicAnnee = this.XDocument.XPathSelectElement("/document/entete/licannee");
+            XElement xLicType = this.XDocument.XPathSelectElement("/document/entete/lictype");
+            string licAuteur = xLicAuteur?.Value ?? String.Empty;
+            string licAnnee = xLicAnnee?.Value ?? String.Empty;
+            int? licType = xLicType != null ? int.Parse(xLicType?.Value) : (int?)null;
 
             if (!String.IsNullOrEmpty(traducteurs))
             {
@@ -116,7 +122,8 @@ namespace Developpez.MagazineTool
             {
                 nomAuteursEtTraducteurs = auteurs;
             }
-
+            builder.AppendLine(@"\begin{center}");
+            builder.Append(@"\emph{");
             switch (this.Source)
             {
                 case SourceEnum.Actualite:
@@ -143,10 +150,40 @@ namespace Developpez.MagazineTool
                         }
                         break;
                     }
+                case SourceEnum.BilletBlog:
+                    {
+                        builder.Append(String.Format("Retrouvez le billet de blog de {0} en ligne : ", nomAuteursEtTraducteurs));
+                        break;
+                    }
             }
 
-            builder.AppendLine(String.Format(@"\href{{{0}}}{{{0}}}", this.URL));
+            builder.AppendLine(String.Format(@"\href{{{0}}}{{{0}}}", this.URL.Replace("#", @"\#")));
             //builder.Append(String.Format(@"\footnote{{\lien : \texttt{{{0}}}}}", this.URL));
+            builder.AppendLine("}");
+            builder.AppendLine(@"\end{center}");
+
+            if (licType.HasValue)
+            {
+                LicenceType licenceType = ConfigurationType.GetLicenceByType(licType.Value);
+                string licence = licenceType.Description;
+                licence = licence
+                    .Replace("[LICENCE_ANNEE]", licAnnee)
+                    .Replace("[LICENCE_AUTEUR]", licAuteur)
+                    .Replace("&", @"\&");
+
+                builder.AppendLine();
+                builder.AppendLine();
+
+                if (!String.IsNullOrEmpty(licenceType.Logo))
+                {                
+                    builder.AppendLine(@"\begin{wrapfigure}{L}{0.15\textwidth}");
+                    builder.AppendLine(@"\center");
+                    builder.AppendLine(@"\vspace*{-0.7cm}");
+                    builder.AppendLine(String.Format(@"\includegraphics[scale=0.7]{{input/logos_images/{0}}}", licenceType.Logo));
+                    builder.AppendLine(@"\end{wrapfigure}");
+                }
+                builder.AppendLine(String.Format(@"{{\scriptsize {0} \par}}", licence));
+            }
 
             return builder.ToString();
         }

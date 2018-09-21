@@ -14,23 +14,29 @@
 %%% CORPS %%%
 \numero{@Model.Numero}
 \date{@Model.Date}%
-\edito{@Model.Edito}
+\edito{@Model.Couverture.Edito}
 \realisateur{@Model.Realisateur}
 
-\themeun{@Model.Couverture.Articles[0].Categorie.Nom}
-\titreun{@Model.Couverture.Articles[0].Titre}
-\logoun{@Model.Couverture.Articles[0].Categorie.Icone}
-\resumeun{@Model.Couverture.Articles[0].Resume}
-\auteurun{@Model.Couverture.Articles[0].DisplayAuteurs()}
-\pageun{\pageref{article-@Model.Couverture.Articles[0].ID}}
+@if(Model.Couverture.Articles != null)
+{
+	if(Model.Couverture.Articles.Count > 0)
+	{
+		WriteLine(@"\themeun{{{0}}}", Model.Couverture.Articles[0].Categorie.Nom);
+		WriteLine(@"\titreun{{{0}}}", Model.Couverture.Articles[0].Titre);
+		WriteLine(@"\logoun{{{0}}}", Model.Couverture.Articles[0].Categorie.Icone);
+		WriteLine(@"\resumeun{{{0}}}", Model.Couverture.Articles[0].Resume);
+		WriteLine(@"\auteurun{{{0}}}", Model.Couverture.Articles[0].DisplayAuteurs());
+		WriteLine(@"\pageun{{\pageref{{article-{0}}}}}", Model.Couverture.Articles[0].ID);
+	}
 
-
-\themedeux{@Model.Couverture.Articles[1].Categorie.Nom}
-\titredeux{@Model.Couverture.Articles[1].Titre}
-\logodeux{@Model.Couverture.Articles[1].Categorie.Icone}
-\resumedeux{@Model.Couverture.Articles[1].Resume}
-\auteurdeux{@Model.Couverture.Articles[1].DisplayAuteurs()}
-\pagedeux{\pageref{article-@Model.Couverture.Articles[1].ID}}
-
-
+	if(Model.Couverture.Articles.Count > 1)
+	{
+		WriteLine(@"\themedeux{{{0}}}", Model.Couverture.Articles[1].Categorie.Nom);
+		WriteLine(@"\titredeux{{{0}}}", Model.Couverture.Articles[1].Titre);
+		WriteLine(@"\logodeux{{{0}}}", Model.Couverture.Articles[1].Categorie.Icone);
+		WriteLine(@"\resumedeux{{{0}}}", Model.Couverture.Articles[1].Resume);
+		WriteLine(@"\auteurdeux{{{0}}}", Model.Couverture.Articles[1].DisplayAuteurs());
+		WriteLine(@"\pagedeux{{\pageref{{article-{0}}}}}", Model.Couverture.Articles[1].ID);
+	}
+}
 \couverture

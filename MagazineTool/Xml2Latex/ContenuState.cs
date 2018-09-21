@@ -10,9 +10,11 @@ namespace Developpez.MagazineTool
         {
             this.Stack = new Stack<string>();
             this.Sections = new Stack<int>();
+            this.PendingFootnotes = new List<string>();
         }
 
         public Stack<string> Stack { get; set; }
         public Stack<int> Sections { get; set; }
+        public List<string> PendingFootnotes { get; set; }
     }
 }

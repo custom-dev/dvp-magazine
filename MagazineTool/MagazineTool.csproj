@@ -10,30 +10,41 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Configuration.xml" />
     <None Remove="Templates\article.tex" />
     <None Remove="Templates\couverture.tex" />
+    <None Remove="Templates\editorial.tex" />
+    <None Remove="Templates\epub\META-INF\container.xml" />
+    <None Remove="Templates\epub\OEBPS\content.xslt" />
+    <None Remove="Templates\epub\OEBPS\couverture.xslt" />
     <None Remove="Templates\help.txt" />
     <None Remove="Templates\input\environnements.tex" />
     <None Remove="Templates\input\logos_images\access.png" />
     <None Remove="Templates\input\logos_images\ajax.png" />
+    <None Remove="Templates\input\logos_images\Algorithmique.png" />
     <None Remove="Templates\input\logos_images\alm.png" />
     <None Remove="Templates\input\logos_images\assembleur.png" />
     <None Remove="Templates\input\logos_images\attention.jpg" />
     <None Remove="Templates\input\logos_images\attention.png" />
     <None Remove="Templates\input\logos_images\c++.png" />
+    <None Remove="Templates\input\logos_images\CC_by-nc-sa.png" />
     <None Remove="Templates\input\logos_images\cloud-computing.png" />
     <None Remove="Templates\input\logos_images\clubdesdevp.png" />
+    <None Remove="Templates\input\logos_images\conception.png" />
     <None Remove="Templates\input\logos_images\danger.jpg" />
     <None Remove="Templates\input\logos_images\danger.png" />
+    <None Remove="Templates\input\logos_images\delphi.png" />
     <None Remove="Templates\input\logos_images\dotnet.png" />
     <None Remove="Templates\input\logos_images\idee2.png" />
     <None Remove="Templates\input\logos_images\imagedefondassembleur.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondclub.jpg" />
+    <None Remove="Templates\input\logos_images\imagedefondconception.png" />
     <None Remove="Templates\input\logos_images\imagedefondcpp.jpg" />
     <None Remove="Templates\input\logos_images\imagedefonddevweb.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondhardware.png" />
     <None Remove="Templates\input\logos_images\imagedefondjava.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondos.jpg" />
+    <None Remove="Templates\input\logos_images\imagedefondpascal.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondqt.png" />
     <None Remove="Templates\input\logos_images\imagedefondrose.jpg" />
     <None Remove="Templates\input\logos_images\information3.png" />
@@ -47,11 +58,14 @@
     <None Remove="Templates\input\macros.tex" />
     <None Remove="Templates\input\preambule.tex" />
     <None Remove="Templates\magazine.tex" />
-    <None Remove="Templates\remerciements - Copier.tex" />
-    <None Remove="Templates\remerciements.tex" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Configuration.xml" />
+    <EmbeddedResource Include="Templates\epub\META-INF\container.xml" />
+    <EmbeddedResource Include="Templates\epub\OEBPS\content.xslt" />
+    <EmbeddedResource Include="Templates\epub\OEBPS\couverture.xslt" />
+    <EmbeddedResource Include="Templates\input\logos_images\Algorithmique.png" />
     <EmbeddedResource Include="Templates\input\logos_images\assembleur.png" />
     <EmbeddedResource Include="Templates\input\logos_images\attention.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\attention.png" />
@@ -66,18 +80,23 @@
     <EmbeddedResource Include="Templates\input\logos_images\access.png" />
     <EmbeddedResource Include="Templates\input\logos_images\ajax.png" />
     <EmbeddedResource Include="Templates\input\logos_images\alm.png" />
+    <EmbeddedResource Include="Templates\input\logos_images\CC_by-nc-sa.png" />
     <EmbeddedResource Include="Templates\input\logos_images\cloud-computing.png" />
     <EmbeddedResource Include="Templates\input\logos_images\clubdesdevp.png" />
+    <EmbeddedResource Include="Templates\input\logos_images\conception.png" />
     <EmbeddedResource Include="Templates\input\logos_images\danger.png" />
+    <EmbeddedResource Include="Templates\input\logos_images\delphi.png" />
     <EmbeddedResource Include="Templates\input\logos_images\dotnet.png" />
     <EmbeddedResource Include="Templates\input\logos_images\idee2.png" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondassembleur.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondclub.jpg" />
+    <EmbeddedResource Include="Templates\input\logos_images\imagedefondconception.png" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondcpp.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefonddevweb.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondhardware.png" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondjava.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondos.jpg" />
+    <EmbeddedResource Include="Templates\input\logos_images\imagedefondpascal.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondqt.png" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondrose.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\information3.png" />
@@ -91,14 +110,15 @@
     <EmbeddedResource Include="Templates\input\macros.tex" />
     <EmbeddedResource Include="Templates\input\preambule.tex" />
     <EmbeddedResource Include="Templates\magazine.tex" />
-    <EmbeddedResource Include="Templates\remerciements - Copier.tex" />
-    <EmbeddedResource Include="Templates\remerciements.tex" />
+    <EmbeddedResource Include="Templates\editorial.tex" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.7.0" />
+    <PackageReference Include="SharpZipLib" Version="0.86.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
   </ItemGroup>
 
 </Project>

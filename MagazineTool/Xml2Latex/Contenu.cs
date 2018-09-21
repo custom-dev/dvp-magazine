@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -370,6 +371,7 @@ namespace Developpez.MagazineTool
             string align = xAlign != null ? xAlign.Value : String.Empty;
             string src = xSrc != null ? xSrc.Value : String.Empty;
             string scale = "0.4";
+            bool includeFigure = true;
 
             // Modification de l'extension si c'est un gif
             if (src.ToLower().EndsWith(".gif"))
@@ -388,22 +390,32 @@ namespace Developpez.MagazineTool
             }
 
             state.Stack.Push("image");
-    
-            if (state.Stack.FirstOrDefault(x => x == "tableau") != null ||
+
+            if (state.Stack.FirstOrDefault(x => x == "tableau") != null)
+            {
+                includeFigure = false;
+            }
+
+            //if (state.Stack.FirstOrDefault(x => x == "tableau") != null ||
+            if (
                 state.Stack.FirstOrDefault(x => x == "rich-imgtexte") != null ||
                 state.Stack.FirstOrDefault(x => x == "paragraph") != null)
-            {                
+            {
+                includeFigure = false;
                 writer.Write(@"\includegraphics[scale={1}]{{\DVPGetImagePath/{0}}}", src, scale);
             }
             else
             {
-                if (xLegende == null || String.IsNullOrEmpty(xLegende.Value))
+                if (includeFigure)
                 {
-                    writer.WriteLine(@"\begin{figure}[H]");
-                }
-                else
-                {
-                    writer.WriteLine(@"\begin{figure}[H]");
+                    if (xLegende == null || String.IsNullOrEmpty(xLegende.Value))
+                    {
+                        writer.WriteLine(@"\begin{figure}[H]");
+                    }
+                    else
+                    {
+                        writer.WriteLine(@"\begin{figure}[H]");
+                    }
                 }
                 
                 writer.WriteLine(@"\center");
@@ -413,7 +425,11 @@ namespace Developpez.MagazineTool
                 {
                     writer.WriteLine(@"\caption{{{0}}}", EscapeChar(xLegende.Value));
                 }
-                writer.WriteLine(@"\end{figure}");
+
+                if (includeFigure)
+                {
+                    writer.WriteLine(@"\end{figure}");
+                }
                 writer.WriteLine();
             }
             
@@ -451,6 +467,9 @@ namespace Developpez.MagazineTool
                                     break;
                                 case "image":
                                     TranslateImage(article, writer, xChildElement, state);
+                                    break;
+                                case "imgtext":
+                                    TranslateImgText(article, writer, xChildElement, state);
                                     break;
                                 case "important":
                                     TranslateImportant(article, writer, xChildElement, state);
@@ -509,11 +528,11 @@ namespace Developpez.MagazineTool
         private static void TranslateListe(ArticleType article, TextWriter writer, XElement xElement, ContenuState state)
         {
             IEnumerable<XElement> xElements = xElement.Elements("element");
-
+            bool isOrdered = xElement.Attribute("type")?.Value == "1";
             state.Stack.Push("liste");
             state.Stack.Push("element");
 
-            writer.WriteLine(@"\begin{itemize}");
+            writer.WriteLine(isOrdered ? @"\begin{enumerate}" : @"\begin{itemize}");
             foreach (XElement xItem in xElements)
             {
                 writer.Write(@"\item ");
@@ -521,7 +540,7 @@ namespace Developpez.MagazineTool
                 writer.WriteLine();
             }
             
-            writer.WriteLine(@"\end{itemize}");
+            writer.WriteLine(isOrdered ? @"\end{enumerate}" :  @"\end{itemize}");
             writer.WriteLine();
 
             state.Stack.Pop();
@@ -537,17 +556,89 @@ namespace Developpez.MagazineTool
             XAttribute xLangue = xElement.Attribute("langue");
 
             string rawUrl = EscapeChar(xHref.Value);
-            //TranslateTexte(article, writer, xElement, state);
 
-            //if (xHref != null)
-            //{
-            //    writer.WriteLine(@" \href{{{0}}}{{\lien}}", xHref.Value);
-            //}
-            writer.Write(String.Format(@"\href{{{0}}}{{", xHref.Value));
-            TranslateTexte(article, writer, xElement, state);            
-            writer.Write(@"}");
-            writer.Write(String.Format(@"\footnote{{\lien : \texttt{{{0}}}}}", rawUrl));
 
+            if (xHref.Value == xElement.Value)
+            {
+                writer.Write(String.Format(@"\href{{{0}}}{{lien}}", rawUrl));
+            }
+            else
+            {
+                writer.Write(String.Format(@"\href{{{0}}}{{", rawUrl));
+                TranslateTexte(article, writer, xElement, state);
+                writer.Write(@"}");
+            }
+            if (state.Stack.FirstOrDefault(x => x == "rich-imgtexte" || x == "imgtexte") != null)
+            {
+                writer.Write(@"\footnotemark ");
+                state.PendingFootnotes.Add(WriteUrlInFootnote(rawUrl));
+            }
+            else
+            {
+                writer.Write(String.Format(@"\footnote{{\texttt{{{0}}}}}", WriteUrlInFootnote(rawUrl)));
+            }
+        }
+
+        private static void WritePendingFootnotes(TextWriter writer, ContenuState state)
+        {
+            if (state.PendingFootnotes.Count > 0)
+            {
+                writer.WriteLine(@"\addtocounter{{footnote}}{{-{0}}}", state.PendingFootnotes.Count);
+                foreach(string note in state.PendingFootnotes)
+                {
+                    writer.WriteLine(@"\stepcounter{{footnote}}\footnotetext{{\texttt{{{0}}}}}", note);
+                }
+
+                state.PendingFootnotes.Clear();
+            }
+        }
+
+        private static string WriteUrlInFootnote(string url)
+        {
+            List<string> parts = new List<string>();
+            string temp = url;
+            string line = "";
+            char[] c = new char[] { '-', '/' };
+
+            while(!String.IsNullOrEmpty(temp))
+            {
+                int index = temp.IndexOfAny(c);
+                if (index > -1)
+                {
+                    string item = temp.Substring(0, index + 1);
+                    if (line.Length + item.Length <= 90)
+                    {
+                        line = line + item;
+                    }
+                    else
+                    {
+                        parts.Add(line);
+                        line = item;
+                    }
+
+                    temp = temp.Substring(index + 1);
+
+                    if (String.IsNullOrEmpty(temp))
+                    {
+                        parts.Add(line);
+                    }
+                }
+                else
+                {
+                    if (line.Length + temp.Length <= 90)
+                    {
+                        parts.Add(line + temp);
+                    }
+                    else
+                    {
+                        parts.Add(line);
+                        parts.Add(temp);
+                    }
+                    temp = String.Empty;
+                }
+            }
+
+            return String.Join("\\\\", parts);
         }
 
         private static void TranslateRenvoi(TextWriter writer, XElement xElement, ContenuState state)
@@ -590,7 +681,7 @@ namespace Developpez.MagazineTool
                 foreach (XElement xCell in xFirstLine)
                 {
                     //                    formatColonne[count] = "m{3.5cm}";
-                    formatColonne[count] = "l";
+                    formatColonne[count] = String.Format("p{{{0}\\textwidth}}", (0.92/xFirstLine.Count()).ToString(CultureInfo.InvariantCulture));
                     count++;
                 }
 
@@ -604,7 +695,7 @@ namespace Developpez.MagazineTool
                 }
 
                 writer.WriteLine(@"\begin{center}");
-                writer.WriteLine(@"\begin{{tabular}}{{{0}}}", formatColonnes);
+                writer.WriteLine(@"\begin{{longtable}}{{{0}}}", formatColonnes);
 
                 if (hasBorder)
                 {
@@ -627,13 +718,18 @@ namespace Developpez.MagazineTool
                         firstCell = false;    
                     }
                     writer.WriteLine(@"\\");
+
+                    if (hasBorder)
+                    {
+                        writer.WriteLine(@"\hline");
+                    }
                 }
 
                 if (hasBorder)
                 {
                     writer.WriteLine(@"\hline");
                 }
-                writer.WriteLine(@"\end{tabular}");
+                writer.WriteLine(@"\end{longtable}");
                 writer.WriteLine(@"\end{center}");
                 writer.WriteLine();
 
@@ -764,6 +860,8 @@ namespace Developpez.MagazineTool
             TranslateTexte(article, writer, xElement, state);
             writer.WriteLine(@"\end{{{0}}}", type);
             state.Stack.Pop();
+
+            WritePendingFootnotes(writer, state);
         }
 
         private static void TranslateCode(ArticleType article, TextWriter writer, XElement xElement, ContenuState state)
@@ -827,7 +925,7 @@ namespace Developpez.MagazineTool
                     case XmlNodeType.Text:
                     case XmlNodeType.CDATA:
                         XText xChildText = xChildNode as XText;
-                        writer.Write(xChildText.Value);
+                        writer.Write(EscapeCharInListing(xChildText.Value));
                         break;
                     default:
                         throw new NotImplementedException();
@@ -861,17 +959,36 @@ namespace Developpez.MagazineTool
 
         private static string EscapeChar(string str)
         {
-            return str.Replace("&", @"\&").
+            return str.
+                Replace("\\", "\\\\").
+                Replace("&", @"\&").
                 Replace("#", @"\#").
                 Replace("_", @"\_").
                 Replace("°", @"\no").
                 Replace("\u009c", @"\oe{}").
-                Replace("…", @"\dots").
+                Replace("…", @"\dots{}").
                 Replace("’", @"'").
                 Replace("«", @"\og{}").
                 Replace("»", @"\fg{}").
                 Replace("%", @"\%").
-                Replace("$", @"\$");     
+                Replace("$", @"\$").
+                Replace("Ω", @"\textOmega{}").
+                Replace("\u00A0", "~"); // espace insécable
+        }
+
+        private static string EscapeCharInListing(string str)
+        {
+            return str.
+                Replace("\\", "\\\\").
+                Replace("°", @"\no").
+                Replace("\u009c", @"\oe{}").
+                Replace("…", @"\dots{}").
+                Replace("’", @"'").
+                Replace("«", @"\og{}").
+                Replace("»", @"\fg{}").
+                Replace("%", @"\%").
+                Replace("Ω", @"\textOmega{}").
+                Replace("\u00A0", " "); // espace insécable
         }
     }
 }

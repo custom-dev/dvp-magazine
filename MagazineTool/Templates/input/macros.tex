@@ -4,12 +4,14 @@
 \def\realisateur#1{\def\magazinerealisateur{#1}}
 \def\edito#1{\def\edit@{#1}}
 \def\themeun#1{\def\them@{#1}}
+\def\title@ne{}
 \def\titreun#1{\def\title@ne{#1}}
 \def\logoun#1{\def\l@g@ne{#1}}
 \def\resumeun#1{\def\resu{#1}}
 \def\auteurun#1{\def\auth@r{#1}}
 \def\pageun#1{\def\p@ge{#1}}
 \def\themedeux#1{\def\themtw@{#1}}
+\def\titletw@{}
 \def\titredeux#1{\def\titletw@{#1}}
 \def\logodeux#1{\def\l@gtw@{#1}}
 \def\resumedeux#1{\def\resutw@{#1}}
@@ -17,6 +19,7 @@
 \def\pagedeux#1{\def\p@getw@{#1}}
 %%%%%%%%%%%%%%%%%Articles de la page de couverture%%%%%%%%%%%%%%%%
 \def\articleun{%
+\if\title@ne\empty\else
 \vspace{\dimexpr\baselineskip-2\fboxsep-2\fboxrule}
 \textcolor{bleudvp}{{\LARGE\sffamily\textbf{\them@}}}
 
@@ -29,9 +32,10 @@
 
 \resu\par
 par \textcolor{rougedvp}{\auth@r}\par
-Page \p@ge\par}
+Page \p@ge\par\fi}
 
 \def\articledeux{%
+\if\titletw@\empty\else
 \kern0pt\hfill\textcolor{bleudvp}{{\LARGE\sffamily\textbf{\themtw@}}}
 
 \vspace{-2\baselineskip}
@@ -44,7 +48,7 @@ Page \p@ge\par}
 \resutw@\par
 par \textcolor{rougedvp}{\auth@rtw@}\par
 Page \p@getw@\par
-\end{flushright}}
+\end{flushright}\fi}
 %%%%%%%%%%%%%%%%%%%%%couverture%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\couverture{%
 \thispagestyle{empty}
@@ -102,102 +106,6 @@ La rédaction
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%liste des liens%%%%%%%%%%%
-\makeatletter
-\newcounter{UrlListe}
-\newcounter{UrlListeAux}
-\renewcommand*{\theUrlListe}{UrlListe\the\value{UrlListe}}
-\renewcommand*{\theUrlListeAux}{UrlListe\the\value{UrlListeAux}}
-\newcommand\lien{Lien~\the\value{UrlListe}}
-
-\zref@newprop{UrlListe@Text}{\UrlListe@Text}
-\zref@newprop{UrlListe@HexLink}[3F3F]{\UrlListe@HexLink}
-\zref@newlist{UrlListe}
-\zref@addprops{UrlListe}{UrlListe@Text, UrlListe@HexLink, page}
-\zref@newprop{UrlListe@Max}{\the\value{UrlListe}}
-\zref@addprops{LastPage}{UrlListe@Max}
-
-\newif\ifUrlListe@
-
-\newcommand\saved@hyper@linkurl{}
-\let\saved@hyper@linkurl\hyper@linkurl
-\renewcommand{\hyper@linkurl}[2]{%
-  \ifUrlListe@
-  \else
-    \begingroup
-      \refstepcounter{UrlListe}%
-      \protected@edef\UrlListe@Text{#1}%
-      \@onelevel@sanitize\UrlListe@Text
-      \EdefEscapeHex\UrlListe@HexLink{#2}%
-      \zref@labelbylist{\theUrlListe}{UrlListe}%
-    \endgroup
-  \fi
-  \saved@hyper@linkurl{#1}{#2}%
-}
-
-\newcommand*{\UrlListe}{%
-\clearpage
-\newgeometry{left=2cm,right=2cm,top=2cm,bottom=3cm}
-\fancyput(-2.54cm,-25.96cm){\includegraphics[width=21cm,height=28.5cm]{logos_images/imagedefondrose.jpg}}%
-  \zref@refused{LastPage}%
-  \edef\UrlListe@Max{%
-    \zref@extractdefault{LastPage}{UrlListe@Max}{-1}%
-  }%
-  \ifnum\UrlListe@Max<0 %
-    \@latex@warning@no@line{Il faut compiler deux fois pour avoir la liste des liens ;)}%
-  \else
-    \UrlListe@true
-    \begin{UrlListeEnv}%
-      \let\UrlListe@LastPage\@empty
-      \setcounter{UrlListeAux}{0}%
-      \@whilenum\value{UrlListeAux}<\UrlListe@Max\do{%
-        \stepcounter{UrlListeAux}%
-        \zref@refused{\theUrlListeAux}%
-        \zref@ifrefundefined{\theUrlListeAux}{%
-        }{%
-          \EdefUnescapeHex\UrlListe@Link{%
-            \zref@extract{\theUrlListeAux}{UrlListe@HexLink}%
-          }%
-          \zref@def@extract\UrlListe@Text{\theUrlListeAux}{UrlListe@Text}%
-          \zref@def@extract\UrlListe@Page{\theUrlListeAux}{page}%
-          \edef\UrlListe@Next{%
-            \noexpand\UrlListeItem{%
-              \etex@unexpanded\expandafter{\UrlListe@Page}%
-            }{%
-              \etex@unexpanded\expandafter{\UrlListe@Link}%
-            }{%
-              \etex@unexpanded\expandafter{\UrlListe@Text}%
-            }%
-          }%
-          \ifx\UrlListe@Page\UrlListe@LastPage
-          \else
-            \expandafter\UrlListePage\expandafter{\UrlListe@Page}%
-            \let\UrlListe@LastPage\UrlListe@Page
-          \fi
-          \UrlListe@Next
-        }%
-      }%
-    \end{UrlListeEnv}%
-  \fi
-}
-\makeatletter
-
-\newenvironment{UrlListeEnv}{%
-\clearpage
-\section*{Liste des liens}
-%
-}{
-}
-
-\newcommand*{\UrlListePage}[1]{%
-\par\noindent\hyperlink{page.#1}{\textcolor{rougedvp}{Page #1}}\medskip%\mbox{}%
-}
-
-\newcommand*{\UrlListeItem}[3]{%
-  \vspace{-0.3cm}\begin{description}[labelsep=3mm]
-  \item\textbf{\vphantom{yA}Lien \the\value{UrlListeAux}} : \href{#2}{\nolinkurl{#2}}
-  \end{description}%
-}  
 
 %%%% Gestion des chemins pour les images
 \newcommand{\DVPGetImagePath}{}

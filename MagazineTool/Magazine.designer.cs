@@ -31,7 +31,7 @@ namespace Developpez.MagazineTool {
         
         private CouvertureType couvertureField;
         
-        private string editoField;
+        private EditorialType editorialField;
         
         private List<MagazineTypeCategorie> categoriesField;
         
@@ -39,6 +39,7 @@ namespace Developpez.MagazineTool {
         
         public MagazineType() {
             this.categoriesField = new List<MagazineTypeCategorie>();
+            this.editorialField = new EditorialType();
             this.couvertureField = new CouvertureType();
         }
         
@@ -78,12 +79,12 @@ namespace Developpez.MagazineTool {
             }
         }
         
-        public string Edito {
+        public EditorialType Editorial {
             get {
-                return this.editoField;
+                return this.editorialField;
             }
             set {
-                this.editoField = value;
+                this.editorialField = value;
             }
         }
         
@@ -258,12 +259,23 @@ namespace Developpez.MagazineTool {
     [System.Xml.Serialization.XmlRootAttribute(Namespace="http://tempuri.org/Magazine.xsd", IsNullable=true)]
     public partial class CouvertureType {
         
+        private string editoField;
+        
         private List<ArticleType> articlesField;
         
         private static System.Xml.Serialization.XmlSerializer serializer;
         
         public CouvertureType() {
             this.articlesField = new List<ArticleType>();
+        }
+        
+        public string Edito {
+            get {
+                return this.editoField;
+            }
+            set {
+                this.editoField = value;
+            }
         }
         
         [System.Xml.Serialization.XmlArrayItemAttribute("Article", IsNullable=false)]
@@ -1015,6 +1027,191 @@ namespace Developpez.MagazineTool {
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/Magazine.xsd")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="http://tempuri.org/Magazine.xsd", IsNullable=true)]
+    public partial class EditorialType {
+        
+        private string auteurField;
+        
+        private string editoField;
+        
+        private static System.Xml.Serialization.XmlSerializer serializer;
+        
+        public string Auteur {
+            get {
+                return this.auteurField;
+            }
+            set {
+                this.auteurField = value;
+            }
+        }
+        
+        public string Edito {
+            get {
+                return this.editoField;
+            }
+            set {
+                this.editoField = value;
+            }
+        }
+        
+        private static System.Xml.Serialization.XmlSerializer Serializer {
+            get {
+                if ((serializer == null)) {
+                    serializer = new System.Xml.Serialization.XmlSerializer(typeof(EditorialType));
+                }
+                return serializer;
+            }
+        }
+        
+        #region Serialize/Deserialize
+        /// <summary>
+        /// Serializes current EditorialType object into an XML document
+        /// </summary>
+        /// <returns>string XML value</returns>
+        public virtual string Serialize() {
+            System.IO.StreamReader streamReader = null;
+            System.IO.MemoryStream memoryStream = null;
+            try {
+                memoryStream = new System.IO.MemoryStream();
+                Serializer.Serialize(memoryStream, this);
+                memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+                streamReader = new System.IO.StreamReader(memoryStream);
+                return streamReader.ReadToEnd();
+            }
+            finally {
+                if ((streamReader != null)) {
+                    streamReader.Dispose();
+                }
+                if ((memoryStream != null)) {
+                    memoryStream.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes workflow markup into an EditorialType object
+        /// </summary>
+        /// <param name="xml">string workflow markup to deserialize</param>
+        /// <param name="obj">Output EditorialType object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool Deserialize(string xml, out EditorialType obj, out System.Exception exception) {
+            exception = null;
+            obj = default(EditorialType);
+            try {
+                obj = Deserialize(xml);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool Deserialize(string xml, out EditorialType obj) {
+            System.Exception exception = null;
+            return Deserialize(xml, out obj, out exception);
+        }
+        
+        public static EditorialType Deserialize(string xml) {
+            System.IO.StringReader stringReader = null;
+            try {
+                stringReader = new System.IO.StringReader(xml);
+                return ((EditorialType)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+            }
+            finally {
+                if ((stringReader != null)) {
+                    stringReader.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Serializes current EditorialType object into file
+        /// </summary>
+        /// <param name="fileName">full path of outupt xml file</param>
+        /// <param name="exception">output Exception value if failed</param>
+        /// <returns>true if can serialize and save into file; otherwise, false</returns>
+        public virtual bool SaveToFile(string fileName, out System.Exception exception) {
+            exception = null;
+            try {
+                SaveToFile(fileName);
+                return true;
+            }
+            catch (System.Exception e) {
+                exception = e;
+                return false;
+            }
+        }
+        
+        public virtual void SaveToFile(string fileName) {
+            System.IO.StreamWriter streamWriter = null;
+            try {
+                string xmlString = Serialize();
+                System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+                streamWriter = xmlFile.CreateText();
+                streamWriter.WriteLine(xmlString);
+                streamWriter.Close();
+            }
+            finally {
+                if ((streamWriter != null)) {
+                    streamWriter.Dispose();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Deserializes xml markup from file into an EditorialType object
+        /// </summary>
+        /// <param name="fileName">string xml file to load and deserialize</param>
+        /// <param name="obj">Output EditorialType object</param>
+        /// <param name="exception">output Exception value if deserialize failed</param>
+        /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+        public static bool LoadFromFile(string fileName, out EditorialType obj, out System.Exception exception) {
+            exception = null;
+            obj = default(EditorialType);
+            try {
+                obj = LoadFromFile(fileName);
+                return true;
+            }
+            catch (System.Exception ex) {
+                exception = ex;
+                return false;
+            }
+        }
+        
+        public static bool LoadFromFile(string fileName, out EditorialType obj) {
+            System.Exception exception = null;
+            return LoadFromFile(fileName, out obj, out exception);
+        }
+        
+        public static EditorialType LoadFromFile(string fileName) {
+            System.IO.FileStream file = null;
+            System.IO.StreamReader sr = null;
+            try {
+                file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+                sr = new System.IO.StreamReader(file);
+                string xmlString = sr.ReadToEnd();
+                sr.Close();
+                file.Close();
+                return Deserialize(xmlString);
+            }
+            finally {
+                if ((file != null)) {
+                    file.Dispose();
+                }
+                if ((sr != null)) {
+                    sr.Dispose();
+                }
+            }
+        }
+        #endregion
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.32990")]
+    [System.SerializableAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/Magazine.xsd")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://tempuri.org/Magazine.xsd", IsNullable=true)]
     public partial class ImageType {
         
         private string srcField;
@@ -1399,6 +1596,9 @@ namespace Developpez.MagazineTool {
         
         /// <remarks/>
         Actualite,
+        
+        /// <remarks/>
+        BilletBlog,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Xsd2Code", "3.4.0.32990")]
