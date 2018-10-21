@@ -49,7 +49,9 @@ namespace Developpez.MagazineTool
 
             public string EscapeChar(string str)
             {
-                string s = str.Replace("&", @"\&");
+                string s = str
+                    .Replace("&", @"\&")
+                    .Replace("%", @"\%");
                 return s;
             }
 

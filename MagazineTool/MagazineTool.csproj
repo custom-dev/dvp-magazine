@@ -31,9 +31,11 @@
     <None Remove="Templates\input\logos_images\cloud-computing.png" />
     <None Remove="Templates\input\logos_images\clubdesdevp.png" />
     <None Remove="Templates\input\logos_images\conception.png" />
+    <None Remove="Templates\input\logos_images\css.png" />
     <None Remove="Templates\input\logos_images\danger.jpg" />
     <None Remove="Templates\input\logos_images\danger.png" />
     <None Remove="Templates\input\logos_images\delphi.png" />
+    <None Remove="Templates\input\logos_images\dev2D3Djeux.png" />
     <None Remove="Templates\input\logos_images\dotnet.png" />
     <None Remove="Templates\input\logos_images\idee2.png" />
     <None Remove="Templates\input\logos_images\imagedefondassembleur.jpg" />
@@ -43,6 +45,7 @@
     <None Remove="Templates\input\logos_images\imagedefonddevweb.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondhardware.png" />
     <None Remove="Templates\input\logos_images\imagedefondjava.jpg" />
+    <None Remove="Templates\input\logos_images\imagedefondjeux.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondos.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondpascal.jpg" />
     <None Remove="Templates\input\logos_images\imagedefondqt.png" />
@@ -53,6 +56,7 @@
     <None Remove="Templates\input\logos_images\logomag.png" />
     <None Remove="Templates\input\logos_images\php.png" />
     <None Remove="Templates\input\logos_images\qt.png" />
+    <None Remove="Templates\input\logos_images\Reseau.png" />
     <None Remove="Templates\input\logos_images\systemes-embarques.png" />
     <None Remove="Templates\input\logos_images\windows.png" />
     <None Remove="Templates\input\macros.tex" />
@@ -84,8 +88,10 @@
     <EmbeddedResource Include="Templates\input\logos_images\cloud-computing.png" />
     <EmbeddedResource Include="Templates\input\logos_images\clubdesdevp.png" />
     <EmbeddedResource Include="Templates\input\logos_images\conception.png" />
+    <EmbeddedResource Include="Templates\input\logos_images\css.png" />
     <EmbeddedResource Include="Templates\input\logos_images\danger.png" />
     <EmbeddedResource Include="Templates\input\logos_images\delphi.png" />
+    <EmbeddedResource Include="Templates\input\logos_images\dev2D3Djeux.png" />
     <EmbeddedResource Include="Templates\input\logos_images\dotnet.png" />
     <EmbeddedResource Include="Templates\input\logos_images\idee2.png" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondassembleur.jpg" />
@@ -95,6 +101,7 @@
     <EmbeddedResource Include="Templates\input\logos_images\imagedefonddevweb.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondhardware.png" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondjava.jpg" />
+    <EmbeddedResource Include="Templates\input\logos_images\imagedefondjeux.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondos.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondpascal.jpg" />
     <EmbeddedResource Include="Templates\input\logos_images\imagedefondqt.png" />
@@ -105,6 +112,7 @@
     <EmbeddedResource Include="Templates\input\logos_images\logomag.png" />
     <EmbeddedResource Include="Templates\input\logos_images\php.png" />
     <EmbeddedResource Include="Templates\input\logos_images\qt.png" />
+    <EmbeddedResource Include="Templates\input\logos_images\Reseau.png" />
     <EmbeddedResource Include="Templates\input\logos_images\systemes-embarques.png" />
     <EmbeddedResource Include="Templates\input\logos_images\windows.png" />
     <EmbeddedResource Include="Templates\input\macros.tex" />
@@ -114,10 +122,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.7.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.0.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.7.0" />
-    <PackageReference Include="SharpZipLib" Version="0.86.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.8.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.9.0" />
+    <PackageReference Include="SharpZipLib" Version="1.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
   </ItemGroup>
 

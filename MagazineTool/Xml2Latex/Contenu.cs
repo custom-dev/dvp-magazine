@@ -15,6 +15,7 @@ namespace Developpez.MagazineTool
         private XElement _xRoot;
         private ContenuContexteEnum _contexte;
         private ArticleType _article;
+        private ContenuState _state;
 
         private Contenu(ArticleType article, XElement xRoot, ContenuContexteEnum contexte)
         {
@@ -32,17 +33,26 @@ namespace Developpez.MagazineTool
         {
             using (StringWriter writer = new StringWriter())
             {
-                ContenuState state = new ContenuState();
+                _state = new ContenuState();
                 switch (_contexte)
                 {
                     case ContenuContexteEnum.Contenu:
-                        TranslateContenu(_article, writer, _xRoot, state);
+                        TranslateContenu(_article, writer, _xRoot, _state);
                         break;
                     case ContenuContexteEnum.ZoneRedigee:
-                        TranslateZoneRedigee(_article, writer, _xRoot, state);
+                        TranslateZoneRedigee(_article, writer, _xRoot, _state);
                         break;
                 }
 
+                return writer.ToString();
+            }
+        }
+
+        public string GeneratePending()
+        {
+            using (StringWriter writer = new StringWriter())
+            {
+                WritePendingFootnotes(writer, _state);
                 return writer.ToString();
             }
         }
@@ -123,6 +133,9 @@ namespace Developpez.MagazineTool
                                     case "liste":
                                         TranslateListe(article, writer, xChildElement, state);
                                         break;
+                                    case "noteBasPage":
+                                        TranslateNoteBasPage(article, writer, xChildElement, state);
+                                        break;
                                     case "paragraph":
                                         TranslateParagraphe(article, writer, xChildElement, state);
                                         break;
@@ -137,6 +150,9 @@ namespace Developpez.MagazineTool
                                         break;
                                     case "sup":
                                         TranslateSup(article, writer, xChildElement, state);
+                                        break;
+                                    case "tableau":
+                                        TranslateTableau(article, writer, xChildElement, state);
                                         break;
                                     default:
                                         throw new NotImplementedException(xChildElement.Name.ToString());
@@ -423,7 +439,22 @@ namespace Developpez.MagazineTool
                 writer.WriteLine(@"\includegraphics[scale={1}]{{\DVPGetImagePath/{0}}}", src, scale);
                 if (xLegende != null && !String.IsNullOrEmpty(xLegende.Value))
                 {
-                    writer.WriteLine(@"\caption{{{0}}}", EscapeChar(xLegende.Value));
+                    if (state.Stack.FirstOrDefault(x => x == "tableau") != null)
+                    {
+                        writer.WriteLine(@"\center{{{0}}}", EscapeChar(xLegende.Value));
+
+                    }
+                    else
+                    {
+                        if (xLegende.Value.StartsWith("figure", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            writer.WriteLine(@"\caption*{{{0}}}", EscapeChar(xLegende.Value));
+                        }
+                        else
+                        {
+                            writer.WriteLine(@"\caption{{{0}}}", EscapeChar(xLegende.Value));
+                        }
+                    }
                 }
 
                 if (includeFigure)
@@ -557,25 +588,32 @@ namespace Developpez.MagazineTool
 
             string rawUrl = EscapeChar(xHref.Value);
 
-
-            if (xHref.Value == xElement.Value)
+            if (xHref.Value.StartsWith("#"))
             {
-                writer.Write(String.Format(@"\href{{{0}}}{{lien}}", rawUrl));
-            }
-            else
-            {
-                writer.Write(String.Format(@"\href{{{0}}}{{", rawUrl));
+                // C'est un lien interne. On le squizz.
                 TranslateTexte(article, writer, xElement, state);
-                writer.Write(@"}");
-            }
-            if (state.Stack.FirstOrDefault(x => x == "rich-imgtexte" || x == "imgtexte") != null)
-            {
-                writer.Write(@"\footnotemark ");
-                state.PendingFootnotes.Add(WriteUrlInFootnote(rawUrl));
             }
             else
             {
-                writer.Write(String.Format(@"\footnote{{\texttt{{{0}}}}}", WriteUrlInFootnote(rawUrl)));
+                if (xHref.Value == xElement.Value)
+                {
+                    writer.Write(String.Format(@"\href{{{0}}}{{lien}}", rawUrl));
+                }
+                else
+                {
+                    writer.Write(String.Format(@"\href{{{0}}}{{", rawUrl));
+                    TranslateTexte(article, writer, xElement, state);
+                    writer.Write(@"}");
+                }
+                if (state.Stack.FirstOrDefault(x => x == "rich-imgtexte" || x == "imgtexte") != null || xElement.Ancestors("synopsis").Count() > 0)
+                {
+                    writer.Write(@"\footnotemark ");
+                    state.PendingFootnotes.Add(WriteUrlInFootnote(rawUrl));
+                }
+                else
+                {
+                    writer.Write(String.Format(@"\footnote{{\texttt{{{0}}}}}", WriteUrlInFootnote(rawUrl)));
+                }
             }
         }
 
@@ -702,8 +740,10 @@ namespace Developpez.MagazineTool
                     writer.WriteLine(@"\hline");
                 }
 
-                foreach(XElement xLigne in xLignes)
+                XElement[] xLignesArray = xLignes.ToArray();
+                for(int i = 0; i < xLignesArray.Length; ++i)
                 {
+                    XElement xLigne = xLignesArray[i];
                     IEnumerable<XElement> xColonnes = xLigne.XPathSelectElements("colonne");
                     bool firstCell = true;
 
@@ -717,7 +757,11 @@ namespace Developpez.MagazineTool
                         TranslateTexte(article, writer, xCell, state);
                         firstCell = false;    
                     }
-                    writer.WriteLine(@"\\");
+
+                    if (i < xLignesArray.Length - 1)
+                    {
+                        writer.WriteLine(@"\\");
+                    }
 
                     if (hasBorder)
                     {
@@ -886,6 +930,9 @@ namespace Developpez.MagazineTool
                     case "csharp":
                         writer.Write(@"[language={[Sharp]C}]");
                         break;
+                    case "html":
+                        writer.Write(@"[language=HTML]");
+                        break;
                     case "java":
                         writer.Write("[language=Java]");
                         break;
@@ -895,6 +942,7 @@ namespace Developpez.MagazineTool
                     case "makefile":
                         writer.Write("[language=make]");
                         break;
+                    case "apacheconf":
                     case "other":
                         break;
                     case "php":
@@ -906,12 +954,13 @@ namespace Developpez.MagazineTool
                         writer.Write("[language=C++]");
                         break;
                     case "shell":
+                    case "shellscript":
                         writer.Write("[language=sh]");
                         break;
                     case "text":
                         break;
                     default:
-                        writer.Write(@"[language={0}]", xLanguage.Value);
+                        //writer.Write(@"[language={0}]", xLanguage.Value);
                         break;
             }
         }
@@ -988,6 +1037,7 @@ namespace Developpez.MagazineTool
                 Replace("»", @"\fg{}").
                 Replace("%", @"\%").
                 Replace("Ω", @"\textOmega{}").
+                Replace("‘", @"'").
                 Replace("\u00A0", " "); // espace insécable
         }
     }

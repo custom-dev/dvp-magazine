@@ -2,7 +2,7 @@
   "profiles": {
     "MagazineTool": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\fdori\\OneDrive\\Professionnel\\Developpez.com\\Magazine\\64\\mag64.xml"
+      "commandLineArgs": "\"C:\\Users\\\\François DORIN\\\\OneDrive\\Professionnel\\Developpez.com\\Magazine\\65\\mag65.xml\""
     }
   }
 }

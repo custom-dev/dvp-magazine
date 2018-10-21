@@ -25,6 +25,7 @@
 @if(!String.IsNullOrEmpty(Model.Synopsis.ToLatex()))
 {
 	WriteLine(String.Format(@"\presentation{{{0}}}", Model.Synopsis.ToLatex()));
+	WriteLine(Model.Synopsis.GeneratePending());
 }
 
 

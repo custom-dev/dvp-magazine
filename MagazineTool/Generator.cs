@@ -213,8 +213,10 @@ namespace Developpez.MagazineTool
                 "cloud-computing.png",
                 "clubdesdevp.png",
                 "conception.png",
+                "css.png",
                 "danger.png",
                 "delphi.png",
+                "dev2D3Djeux.png",
                 "dotnet.png",
                 "idee2.png",
                 "imagedefondassembleur.jpg",
@@ -225,6 +227,7 @@ namespace Developpez.MagazineTool
                 "imagedefondjava.jpg",
                 "imagedefondos.jpg",
                 "imagedefondhardware.png",
+                "imagedefondjeux.jpg",
                 "imagedefondpascal.jpg",
                 "imagedefondqt.png",
                 "imagedefondrose.jpg",
@@ -234,6 +237,7 @@ namespace Developpez.MagazineTool
                 "logomag.png",
                 "php.png",
                 "qt.png",
+                "Reseau.png",
                 "systemes-embarques.png",
                 "windows.png"
             };
@@ -277,6 +281,7 @@ namespace Developpez.MagazineTool
             StringBuilder benevolesBuilder = new StringBuilder();
             HashSet<string> participants = new HashSet<string>();
             List<string> listeOrdonnee;
+            string content;
 
             foreach (var categorie in _magazine.Categories)
             {
@@ -314,11 +319,19 @@ namespace Developpez.MagazineTool
             }
             benevolesBuilder.Append(@"\end{itemize}");
 
-            _magazine.Editorial.Edito = _magazine.Editorial.Edito.Replace("[LISTE_BENEVOLES]", benevolesBuilder.ToString());
-            string content = TemplateManager.RenderTemplate(EDITORIAL_FILENAME, _magazine);
-            string outputFileName = Path.Combine(_magazineDirectory.FullName, EDITORIAL_FILENAME);
+            if (_magazine.Editorial.Edito != null)
+            {
+                _magazine.Editorial.Edito = _magazine.Editorial.Edito.Replace("[LISTE_BENEVOLES]", benevolesBuilder.ToString());
+                content = TemplateManager.RenderTemplate(EDITORIAL_FILENAME, _magazine);
+            }
+            else
+            {
+                content = String.Empty;
+            }
 
+            string outputFileName = Path.Combine(_magazineDirectory.FullName, EDITORIAL_FILENAME);
             File.WriteAllText(outputFileName, content);
+            
             return true;
         }
 
